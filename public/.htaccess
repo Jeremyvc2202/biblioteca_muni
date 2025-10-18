@@ -1,0 +1,15 @@
+#RewriteEngine On
+#RewriteBase /agenda-juanita/public/
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^ index.php [QSA,L]
+
+
+# public/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /agenda-juanita/public
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . index.php [L]
+</IfModule>
