@@ -46,13 +46,13 @@ if (!$isEdit) {
   </label>
 
   <label>Estado
-    <select name="estado_prestamo">
-      <?php foreach (['Prestado','De vuelto','En Biblioteca'] as $e): ?>
-        <option <?=$e==($prestamo['estado_prestamo']??'Prestado')?'selected':''?>><?=$e?></option>
+    <select name="estado_prestamo" required>
+      <?php foreach (['Prestado','Devuelto','En Biblioteca'] as $e): ?>
+        <option value="<?=$e?>" <?=($prestamo['estado_prestamo']===$e)?'selected':''?>><?=$e?></option>
       <?php endforeach; ?>
     </select>
   </label>
-  
+
   <label>Imagen del libro
     <?php if (!empty($prestamo['imagen_libro'])): ?>
       <div>

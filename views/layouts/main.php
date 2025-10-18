@@ -9,8 +9,8 @@
 </head>
 <body>
 <nav class="topnav">
-  <a href="?c=usuarios&a=index">Clientes</a>
-  <a href="?c=prestamos&a=index">Agenda</a>
+  <a href="?c=usuarios&a=index">Usario</a>
+  <a href="?c=prestamos&a=index">Préstamos</a>
 </nav>
 <main class="container">
   <?php if (!empty($_GET['msg'])): ?><div class="flash ok">Acción realizada.</div><?php endif; ?>
