@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>Agenda Juanita</title>
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/x-icon" href="assets/libros/biblioteca.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
