@@ -1,9 +1,20 @@
 <?php
 use App\Core\Helpers;
 $csrf = Helpers::csrfToken();
-ob_start(); $isEdit = !empty($prestamo); ?>
+ob_start();
+$isEdit = !empty($prestamo);
+
+// Inicializar estado por defecto
+if (!$isEdit) {
+    $prestamo['estado_prestamo'] = 'Prestado'; // default si es nuevo
+} else {
+    $prestamo['estado_prestamo'] = $prestamo['estado_prestamo'] ?? 'Prestado';
+}
+?>
 <h1><?=$isEdit?'Editar':'Nuevo'?> préstamo</h1>
-<?php if (!empty($errors['_global'])): ?><div class="flash error"><?=htmlspecialchars($errors['_global'])?></div><?php endif; ?>
+<?php if (!empty($errors['_global'])): ?>
+    <div class="flash error"><?=htmlspecialchars($errors['_global'])?></div>
+<?php endif; ?>
 
 <form method="post" action="?c=prestamos&a=save" class="form" id="prestamo-form" enctype="multipart/form-data">
   <?php if ($isEdit): ?><input type="hidden" name="id" value="<?=$prestamo['id']?>"><?php endif; ?>
@@ -36,15 +47,17 @@ ob_start(); $isEdit = !empty($prestamo); ?>
 
   <label>Estado
     <select name="estado_prestamo">
-      <?php foreach (['Prestado','Devuelto','En Biblioteca'] as $e): ?>
+      <?php foreach (['Prestado','De vuelto','En Biblioteca'] as $e): ?>
         <option <?=$e==($prestamo['estado_prestamo']??'Prestado')?'selected':''?>><?=$e?></option>
       <?php endforeach; ?>
     </select>
   </label>
-
+  
   <label>Imagen del libro
     <?php if (!empty($prestamo['imagen_libro'])): ?>
-      <div><img src="assets/libros/<?=htmlspecialchars($prestamo['imagen_libro'])?>" alt="portada" style="max-width:120px"></div>
+      <div>
+        <img src="assets/libros/<?=htmlspecialchars($prestamo['imagen_libro'])?>" alt="portada" style="max-width:120px">
+      </div>
     <?php endif; ?>
     <input type="file" name="imagen_libro" accept="image/*">
     <?php if(!empty($errors['imagen_libro'])): ?><small class="error"><?=$errors['imagen_libro']?></small><?php endif; ?>
@@ -71,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
       fetch(`?c=usuarios&a=search&q=${encodeURIComponent(q)}`)
         .then(res => res.json())
         .then(data => {
-          // mostrar solo nombre y apellido, ordenado alfabéticamente
           data.items.sort((a,b) => a.nombre.localeCompare(b.nombre));
           results.innerHTML = data.items.map(u =>
             `<div class="suggest-item" data-id="${u.id}">${u.nombre} ${u.apellido}</div>`
@@ -88,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // click fuera del input oculta sugerencias
   document.addEventListener('click', e => {
     if (!results.contains(e.target) && e.target !== input) {
       results.innerHTML = '';
@@ -106,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
   background:#fff;
   z-index:100;
   width:100%;
-  position: absolute; /* debajo del input */
+  position: absolute;
 }
 .suggest-item {
   padding:5px;
